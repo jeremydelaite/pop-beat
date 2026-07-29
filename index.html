@@ -54,7 +54,7 @@
   .dd-item:hover { background: var(--glass-hover); }
   .dd-item.sel { background: var(--glass-sel); }
   #board { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr);
-    gap: min(3.4vw, 3.4vh); width: min(94vw, 60vh); height: min(94vw, 60vh); margin: auto;
+    gap: min(3.4vw, 3.4vh); width: min(94vw, 60vh); height: min(94vw, 60vh); margin: auto auto 6vh;
     touch-action: manipulation; user-select: none; -webkit-user-select: none; }
   .bubble { width: 100%; height: 100%; border: 1px solid rgba(255,255,255,.28); border-radius: 50%; padding: 0; cursor: pointer;
     -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
@@ -87,7 +87,6 @@
     </div>
   </header>
   <div id="board"></div>
-  <footer>Touche les bulles pour les éclater et jouer la mélodie.</footer>
 </div>
 <script>
 (function(){
