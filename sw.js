@@ -1,4 +1,4 @@
-const CACHE = 'popbeat-v1';
+const CACHE = 'popbeat-v2';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -10,5 +10,18 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+  const req = e.request;
+  // Réseau d'abord pour la page (voit les mises à jour), cache en secours hors-ligne
+  if (req.mode === 'navigate' || req.destination === 'document') {
+    e.respondWith(
+      fetch(req).then(r => {
+        const copy = r.clone();
+        caches.open(CACHE).then(c => c.put(req, copy));
+        return r;
+      }).catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
+    );
+    return;
+  }
+  // Cache d'abord pour les fichiers statiques
+  e.respondWith(caches.match(req).then(r => r || fetch(req)));
 });
