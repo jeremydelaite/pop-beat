@@ -14,31 +14,50 @@
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; }
-  body { --text:#241f38; --ctrl:rgba(255,255,255,0.42); --ctrl-active:rgba(255,255,255,0.68); --icon:#5a5270; --optbg:#f3f0fb; --glass:rgba(255,255,255,.5); --glass-bd:rgba(255,255,255,.7); --glass-hover:rgba(40,30,80,.08); --glass-sel:rgba(40,30,80,.15);
+  body { --text:#241f38; --ctrl:rgba(255,255,255,0.42); --ctrl-active:rgba(255,255,255,0.68); --icon:#5a5270; --optbg:#f3f0fb; --glass:rgba(255,255,255,.5); --glass-menu:rgba(255,255,255,.66); --glass-bd:rgba(255,255,255,.7); --glass-hover:rgba(40,30,80,.08); --glass-sel:rgba(40,30,80,.15);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--text);
     background: linear-gradient(160deg, #C7BAEB 0%, #BAC6EA 55%, #CABEE6 100%); }
-  body[data-theme="dark"] { --text:#e8e8f0; --ctrl:rgba(255,255,255,0.10); --ctrl-active:rgba(255,255,255,0.20); --icon:#b9b9cc; --optbg:#20202c; --glass:rgba(30,30,40,.5); --glass-bd:rgba(255,255,255,.14); --glass-hover:rgba(255,255,255,.09); --glass-sel:rgba(255,255,255,.16);
+  body[data-theme="dark"] { --text:#e8e8f0; --ctrl:rgba(255,255,255,0.10); --ctrl-active:rgba(255,255,255,0.20); --icon:#b9b9cc; --optbg:#20202c; --glass:rgba(30,30,40,.5); --glass-menu:rgba(28,28,38,.68); --glass-bd:rgba(255,255,255,.14); --glass-hover:rgba(255,255,255,.09); --glass-sel:rgba(255,255,255,.16);
     background: linear-gradient(160deg, #1b1b24 0%, #131318 100%); }
-  body[data-theme="blue"] { --text:#ffffff; --ctrl:rgba(255,255,255,0.18); --ctrl-active:rgba(255,255,255,0.32); --icon:#dbe6f6; --optbg:#1f3f70; --glass:rgba(26,50,92,.48); --glass-bd:rgba(255,255,255,.22); --glass-hover:rgba(255,255,255,.13); --glass-sel:rgba(255,255,255,.24);
+  body[data-theme="blue"] { --text:#ffffff; --ctrl:rgba(255,255,255,0.18); --ctrl-active:rgba(255,255,255,0.32); --icon:#dbe6f6; --optbg:#1f3f70; --glass:rgba(26,50,92,.48); --glass-menu:rgba(24,46,86,.66); --glass-bd:rgba(255,255,255,.22); --glass-hover:rgba(255,255,255,.13); --glass-sel:rgba(255,255,255,.24);
     background: linear-gradient(160deg, #2E568F 0%, #1B3660 100%); }
-  #app { height: 100dvh; display: flex; flex-direction: column;
-    padding: max(12px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); }
-  header { flex: 0 0 auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  #app { height: 100dvh; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
+  #banner { position: relative; z-index: 20; flex: 0 0 auto; display: flex; flex-direction: column; gap: 9px;
+    padding: max(10px, env(safe-area-inset-top)) 16px 12px; background: var(--glass);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid var(--glass-bd); }
+  #board { position: relative; z-index: 1; }
   .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .grp-music { flex: 1 1 auto; min-width: 0; }
-  .grp-music .dd { flex: 1; }
-  .grp-music .dd-trig { width: 100%; max-width: none; justify-content: space-between; }
+  .grp-music { flex: 0 1 auto; min-width: 0; }
+  .grp-music .dd { flex: 0 1 auto; min-width: 0; }
+  .grp-music .dd-trig { width: auto; max-width: 58vw; justify-content: space-between; }
   .grp-theme { flex: 0 0 auto; }
-  .row2 { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 2px; }
+  .row2 { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .row2 .grp { flex: 0 0 auto; }
+  .row-refill { display: none; justify-content: center; }
+  body.grid .row-refill { display: flex; }
+  #refillBtn { width: 40px; height: 40px; padding: 0; }
+  #refillBtn svg { width: 19px; height: 19px; color: var(--text); }
   .grp { display: flex; align-items: center; gap: 6px; min-width: 0; }
   .grp svg { flex: 0 0 auto; color: var(--icon); width: 17px; height: 17px; }
   .bar { background: var(--ctrl); color: var(--text); border: 1px solid var(--glass-bd); border-radius: 12px;
     padding: 7px 11px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex;
     align-items: center; justify-content: center; -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); }
   .bar:active { background-color: var(--ctrl-active); }
-  #modeBtn { width: 34px; height: 34px; padding: 0; flex: 0 0 auto; }
-  #modeBtn svg { width: 18px; height: 18px; color: var(--text); }
+  #gameBar { display: none; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; }
+  body.game #gameBar { display: flex; }
+  .game-stats { display: flex; gap: 16px; }
+  .stat { display: flex; flex-direction: column; align-items: center; line-height: 1.1; min-width: 48px; }
+  .stat small { font-size: 11px; color: var(--icon); }
+  .stat b { font-size: 19px; font-weight: 500; }
+  .game-btns { display: flex; gap: 8px; width: 88px; flex: 0 0 88px; justify-content: flex-start; }
+  .game-btns .bar { width: 40px; height: 40px; padding: 0; }
+  .game-btns .bar svg { width: 20px; height: 20px; color: var(--text); }
+  #overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 50; pointer-events: none; }
+  #overlay.show { display: flex; }
+  #ovText { font-size: 90px; font-weight: 500; color: var(--text); text-align: center; text-shadow: 0 6px 26px rgba(0,0,0,.35); }
+  #ovText small { display: block; font-size: 22px; margin-top: 6px; color: var(--text); opacity: .85; }
+  @keyframes cdpop { 0%{transform:scale(.5);opacity:0} 45%{transform:scale(1.12);opacity:1} 100%{transform:scale(1);opacity:1} }
   .dd { position: relative; min-width: 0; }
   .dd-trig { gap: 7px; max-width: 42vw; }
   .dd-lab { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -46,7 +65,7 @@
     transform: rotate(45deg); margin-top: -3px; opacity: .6; transition: transform .18s ease, margin-top .18s ease; }
   .dd.open .dd-chev { transform: rotate(-135deg); margin-top: 2px; }
   .dd-menu { position: absolute; top: calc(100% + 8px); left: 0; min-width: 224px; max-width: 76vw; padding: 6px;
-    border-radius: 18px; background: var(--glass); border: 1px solid var(--glass-bd);
+    border-radius: 18px; background: var(--glass-menu); border: 1px solid var(--glass-bd);
     -webkit-backdrop-filter: blur(22px) saturate(1.6); backdrop-filter: blur(22px) saturate(1.6);
     box-shadow: 0 18px 48px rgba(0,0,0,.28); opacity: 0; transform: translateY(-8px) scale(.97); transform-origin: top;
     pointer-events: none; transition: opacity .16s ease, transform .16s ease; z-index: 30; max-height: 62vh; overflow-y: auto; }
@@ -56,7 +75,7 @@
   .dd-item:hover { background: var(--glass-hover); }
   .dd-item.sel { background: var(--glass-sel); }
   #board { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr);
-    gap: min(3.4vw, 3.4vh); width: min(94vw, 60vh); height: min(94vw, 60vh); margin: auto auto 6vh;
+    gap: min(3.4vw, 3.4vh); width: min(94vw, 62vh); height: min(94vw, 62vh); margin: auto;
     touch-action: manipulation; user-select: none; -webkit-user-select: none; }
   .bubble { width: 100%; height: 100%; border: 1px solid rgba(255,255,255,.28); border-radius: 50%; padding: 0; cursor: pointer;
     -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
@@ -69,7 +88,7 @@
 </head>
 <body>
 <div id="app">
-  <header>
+  <header id="banner">
     <div class="row">
       <div class="grp grp-music">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
@@ -81,14 +100,33 @@
       </div>
     </div>
     <div class="row2">
-      <button class="bar" id="modeBtn" aria-label="Mode de jeu"></button>
       <div class="grp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="6" ry="6"/></svg>
+        <div class="dd" id="ddMode"></div>
+      </div>
+      <div class="grp grp-theme">
+        <div class="dd right" id="ddFx"></div>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/></svg>
-        <div class="dd" id="ddFx"></div>
+      </div>
+    </div>
+    <div class="row-refill">
+      <button class="bar" id="refillBtn" aria-label="Regonfler toutes les bulles"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></button>
+    </div>
+    <div class="row3" id="gameBar">
+      <div class="game-stats">
+        <div class="stat"><small>Score</small><b id="gScore">0</b></div>
+        <div class="stat"><small>Record</small><b id="gHigh">0</b></div>
+        <div class="stat"><small>Temps</small><b id="gTime">30</b></div>
+      </div>
+      <div class="game-btns">
+        <button class="bar" id="gStart" aria-label="Démarrer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>
+        <button class="bar" id="gStop" aria-label="Arrêter"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/></svg></button>
+        <button class="bar" id="gRestart" aria-label="Recommencer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
       </div>
     </div>
   </header>
   <div id="board"></div>
+  <div id="overlay"><div id="ovText"></div></div>
 </div>
 <script>
 (function(){
@@ -130,8 +168,9 @@
     {name:'Danny Boy (Londonderry Air)', ms:260, notes:('G4 C5 E5 G5 F5 E5 D5 C5 A4 C5 D5 E5 D5 C5 G4 C5 E5 G5 F5 E5 D5 C5 D5 E5 A4 G4 E4 G4 C5 E5 G5 A5 G5 F5 E5 D5 C5 A4 C5 G4 C5 E5 D5 C5 D5 E5 C5 E5 F5 A5 A5 G5 F5 E5 F5 G5 E5 C5 G4 C5 E5 G5 F5 E5 D5 C5 D5 E5 A4 G4').split(' ')}
   ];
   var N=5, ti=0, idx=0, locked=false, actx=null, order=[], mode='grid', motionOn=false, lastShake=0, noiseBuf=null;
-  var GRID_ICON='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>';
-  var ZAP_ICON='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>';
+  var gamePlaying=false, gameScore=0, gameTime=30, gameTimer=null, cdTimer=null;
+  var gameNotes=['C5','E5','G5','A5','C6','D6','E6'];
+  var modes=[{n:'Grille',v:'grid'},{n:'Rapide',v:'solo'},{n:'Jeu',v:'game'}];
   var board=document.getElementById('board');
   var openDD=null;
   function closeAllDD(){if(openDD){openDD.classList.remove('open');openDD=null;}}
@@ -149,8 +188,8 @@
     menu.onclick=function(ev){ev.stopPropagation();};
     return {setCur:setCur};
   }
-  var modeBtn=document.getElementById('modeBtn');
-  var ddTune=makeDropdown(document.getElementById('ddTune'), tunes.map(function(t){return t.name;}), 0, function(i){ti=i;idx=0;try{localStorage.setItem('popit-tune',ti);}catch(e){}if(mode==='grid')refillAll();else applyModeState();});
+  var ddTune=makeDropdown(document.getElementById('ddTune'), tunes.map(function(t){return t.name;}), 0, function(i){ti=i;idx=0;try{localStorage.setItem('popit-tune',ti);}catch(e){}if(mode==='grid')refillAll();else if(mode==='solo')applyModeState();});
+  var ddMode=makeDropdown(document.getElementById('ddMode'), modes.map(function(m){return m.n;}), 0, function(i){setMode(modes[i].v);});
   function applyTheme(i,repaint){var t=themes[i];if(!t)return;col=t;if(t.v)document.body.setAttribute('data-theme',t.v);else document.body.removeAttribute('data-theme');if(repaint)[].forEach.call(board.children,function(el){paint(el,el.dataset.down==='1');});}
   var ddTheme=makeDropdown(document.getElementById('ddTheme'), themes.map(function(t){return t.n;}), 0, function(i){applyTheme(i,true);try{localStorage.setItem('popit-theme',i);}catch(e){}});
   try{var savedT=localStorage.getItem('popit-theme');var ti0=(savedT!==null&&themes[+savedT])?+savedT:2;ddTheme.setCur(ti0);applyTheme(ti0,false);}catch(e){ddTheme.setCur(2);applyTheme(2,false);}
@@ -251,19 +290,33 @@
   function setEmpty(el){el.dataset.state='empty';el.dataset.down='0';el.style.opacity='0';el.style.pointerEvents='none';el.style.transform='';el.style.animation='';}
   function setActive(el){el.dataset.state='active';el.dataset.down='0';el.style.pointerEvents='auto';el.style.opacity='1';paint(el,false);el.style.transform='';el.style.animation='none';void el.offsetWidth;el.style.animation='spawn .2s cubic-bezier(.22,1.5,.5,1)';}
   function spawnOne(){var em=[].filter.call(board.children,function(el){return el.dataset.state==='empty';});if(!em.length)return;setActive(em[Math.floor(Math.random()*em.length)]);}
+  function emptyAll(){[].forEach.call(board.children,function(el){setEmpty(el);});}
+  function scatter(n){var cells=[].slice.call(board.children);for(var k=cells.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var tmp=cells[k];cells[k]=cells[j];cells[j]=tmp;}for(var s=0;s<n&&s<cells.length;s++)setActive(cells[s]);}
   function applyModeState(){
-    if(mode==='solo'){
-      [].forEach.call(board.children,function(el){setEmpty(el);});
-      var cells=[].slice.call(board.children);
-      for(var k=cells.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var tmp=cells[k];cells[k]=cells[j];cells[j]=tmp;}
-      for(var s=0;s<5&&s<cells.length;s++)setActive(cells[s]);
-    } else {
+    if(mode==='solo'){ emptyAll(); scatter(5); }
+    else {
       order=[];
       [].forEach.call(board.children,function(el){el.dataset.state='';el.dataset.down='0';el.style.opacity='1';el.style.pointerEvents='auto';el.style.transform='';el.style.animation='';paint(el,false);});
     }
   }
-  function setMode(m){mode=m;modeBtn.innerHTML=(m==='solo')?ZAP_ICON:GRID_ICON;try{localStorage.setItem('popit-mode',m);}catch(e){}applyModeState();}
-  function resetAll(){idx=0;if(mode==='grid')refillAll();else applyModeState();}
+  var gScoreEl=document.getElementById('gScore'), gHighEl=document.getElementById('gHigh'), gTimeEl=document.getElementById('gTime');
+  var overlay=document.getElementById('overlay'), ovText=document.getElementById('ovText');
+  function getHigh(){try{return parseInt(localStorage.getItem('popit-highscore')||'0',10)||0;}catch(e){return 0;}}
+  function showOverlay(main,sub){ovText.innerHTML=main+(sub?'<small>'+sub+'</small>':'');overlay.classList.add('show');ovText.style.animation='none';void ovText.offsetWidth;ovText.style.animation='cdpop .5s ease';}
+  function hideOverlay(){overlay.classList.remove('show');}
+  function gameBtns(state){document.getElementById('gStart').style.display=(state==='idle')?'':'none';document.getElementById('gStop').style.display=(state==='play')?'':'none';document.getElementById('gRestart').style.display=(state==='play'||state==='end')?'':'none';}
+  function clearGameTimers(){if(gameTimer){clearInterval(gameTimer);gameTimer=null;}if(cdTimer){clearTimeout(cdTimer);cdTimer=null;}}
+  function enterGameIdle(){gamePlaying=false;clearGameTimers();hideOverlay();emptyAll();gameScore=0;gScoreEl.textContent='0';gTimeEl.textContent='30';gHighEl.textContent=getHigh();gameBtns('idle');}
+  function beginPlay(){gamePlaying=true;gameScore=0;gameTime=30;gScoreEl.textContent='0';gTimeEl.textContent='30';emptyAll();scatter(5);gameBtns('play');gameTimer=setInterval(function(){gameTime--;gTimeEl.textContent=gameTime;if(gameTime<=0)endGame();},1000);}
+  function startGame(){clearGameTimers();emptyAll();gameBtns('play');var seq=['3','2','1','GO'],i=0;(function step(){if(i<seq.length){showOverlay(seq[i]);if(navigator.vibrate)navigator.vibrate(15);i++;cdTimer=setTimeout(step,700);}else{hideOverlay();beginPlay();}})();}
+  function endGame(){gamePlaying=false;clearGameTimers();var hs=getHigh(),record=false;if(gameScore>hs){try{localStorage.setItem('popit-highscore',gameScore);}catch(e){}hs=gameScore;record=true;}gHighEl.textContent=hs;emptyAll();showOverlay(record?'Record !':'Terminé','Score '+gameScore);cdTimer=setTimeout(hideOverlay,1900);gameBtns('end');if(navigator.vibrate)navigator.vibrate([30,60,30]);}
+  function stopGame(){if(gamePlaying){endGame();}else{clearGameTimers();enterGameIdle();}}
+  document.getElementById('gStart').onclick=function(){enableMotion();startGame();};
+  document.getElementById('gRestart').onclick=function(){startGame();};
+  document.getElementById('gStop').onclick=function(){stopGame();};
+  document.getElementById('refillBtn').onclick=function(){if(mode==='grid'&&!locked)refillAll();};
+  function setMode(m){mode=m;try{localStorage.setItem('popit-mode',m);}catch(e){}clearGameTimers();hideOverlay();document.body.classList.toggle('game',m==='game');document.body.classList.toggle('grid',m==='grid');if(m==='game'){enterGameIdle();}else{applyModeState();}}
+  function resetAll(){if(mode==='game'){if(gamePlaying)startGame();return;}idx=0;if(mode==='grid')refillAll();else applyModeState();}
   function onMotion(ev){var a=ev.accelerationIncludingGravity||ev.acceleration;if(!a)return;var m=Math.sqrt((a.x||0)*(a.x||0)+(a.y||0)*(a.y||0)+(a.z||0)*(a.z||0));var now=Date.now();if(m>28&&now-lastShake>1200){lastShake=now;if(navigator.vibrate)navigator.vibrate([25,50,25]);resetAll();}}
   function enableMotion(){if(motionOn)return;motionOn=true;try{if(window.DeviceMotionEvent){if(typeof DeviceMotionEvent.requestPermission==='function'){DeviceMotionEvent.requestPermission().then(function(s){if(s==='granted')window.addEventListener('devicemotion',onMotion);}).catch(function(){});}else{window.addEventListener('devicemotion',onMotion);}}}catch(e){}}
   function build(){
@@ -276,6 +329,18 @@
         ev.preventDefault();
         enableMotion();
         var el=ev.currentTarget;
+        if(mode==='game'){
+          if(!gamePlaying) return;
+          if(el.dataset.state!=='active') return;
+          el.dataset.state='popping';
+          if(navigator.vibrate) navigator.vibrate(18);
+          play(freq(gameNotes[Math.floor(Math.random()*gameNotes.length)]));
+          el.dataset.down='1'; paint(el,true); el.style.animation=''; el.style.transform='scale(.85)';
+          (function(b2){setTimeout(function(){setEmpty(b2);},100);})(el);
+          spawnOne();
+          gameScore++; gScoreEl.textContent=gameScore;
+          return;
+        }
         if(mode==='solo'){
           if(el.dataset.state!=='active') return;
           el.dataset.state='popping';
@@ -292,15 +357,15 @@
         el.style.animation=''; el.style.transform='scale(.88)';
         if(navigator.vibrate) navigator.vibrate(18);
         playNote();
-        order.push(el); ensureMin(el);
       });
       board.appendChild(b);
     }
   }
   try{var savedM=localStorage.getItem('popit-tune');if(savedM!==null&&tunes[+savedM]){ti=+savedM;ddTune.setCur(ti);}}catch(e){}
-  modeBtn.onclick=function(){setMode(mode==='grid'?'solo':'grid');};
   build();
-  var savedMode='grid'; try{if(localStorage.getItem('popit-mode')==='solo')savedMode='solo';}catch(e){}
+  var savedMode='grid'; try{var sm=localStorage.getItem('popit-mode'); if(sm==='solo'||sm==='game'||sm==='grid')savedMode=sm;}catch(e){}
+  var mi=0; for(var mm=0;mm<modes.length;mm++){if(modes[mm].v===savedMode)mi=mm;}
+  ddMode.setCur(mi);
   setMode(savedMode);
 })();
 </script>
