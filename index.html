@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#E7E1F5">
+<meta name="theme-color" content="#2E568F">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
@@ -14,9 +14,9 @@
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; }
-  body { --text:#2b2b31; --ctrl:rgba(255,255,255,0.45); --ctrl-active:rgba(255,255,255,0.7); --icon:#6c6c74; --optbg:#ffffff; --glass:rgba(255,255,255,.55); --glass-bd:rgba(255,255,255,.75); --glass-hover:rgba(0,0,0,.06); --glass-sel:rgba(0,0,0,.11);
+  body { --text:#241f38; --ctrl:rgba(255,255,255,0.42); --ctrl-active:rgba(255,255,255,0.68); --icon:#5a5270; --optbg:#f3f0fb; --glass:rgba(255,255,255,.5); --glass-bd:rgba(255,255,255,.7); --glass-hover:rgba(40,30,80,.08); --glass-sel:rgba(40,30,80,.15);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--text);
-    background: linear-gradient(160deg, #E7E1F5 0%, #E4ECF6 55%, #E9E3F0 100%); }
+    background: linear-gradient(160deg, #C7BAEB 0%, #BAC6EA 55%, #CABEE6 100%); }
   body[data-theme="dark"] { --text:#e8e8f0; --ctrl:rgba(255,255,255,0.10); --ctrl-active:rgba(255,255,255,0.20); --icon:#b9b9cc; --optbg:#20202c; --glass:rgba(30,30,40,.5); --glass-bd:rgba(255,255,255,.14); --glass-hover:rgba(255,255,255,.09); --glass-sel:rgba(255,255,255,.16);
     background: linear-gradient(160deg, #1b1b24 0%, #131318 100%); }
   body[data-theme="blue"] { --text:#ffffff; --ctrl:rgba(255,255,255,0.18); --ctrl-active:rgba(255,255,255,0.32); --icon:#dbe6f6; --optbg:#1f3f70; --glass:rgba(26,50,92,.48); --glass-bd:rgba(255,255,255,.22); --glass-hover:rgba(255,255,255,.13); --glass-sel:rgba(255,255,255,.24);
@@ -93,18 +93,23 @@
 <script>
 (function(){
   var themes=[
-    {n:'Lavande',v:'',up:'#AFA9EC',down:'#534AB7'},
-    {n:'Sombre',v:'dark',up:'#5DCAA5',down:'#0F6E56'},
+    {n:'Lavande',v:'',up:'#8E7DEB',down:'#40349E'},
+    {n:'Sombre',v:'dark',up:'#FFC21A',down:'#9A5E00'},
     {n:'Bleu',v:'blue',up:'#8FC0F2',down:'#2F62B8'}
   ];
   var col=themes[0];
   var fx=[
+    {n:'Bulle', kind:'bubble'},
+    {n:'Bulle douce', kind:'bubbledeep'},
+    {n:'Bulle profonde', kind:'bubblesub'},
+    {n:'Éclat', kind:'pop'},
     {n:'8-bit', kind:'osc', type:'square', d:0.22, g:0.20},
     {n:'Électro', kind:'electro'},
     {n:'Piano', kind:'piano'}
   ];
   var fi=0;
   var tunes=[
+    {name:'POP-BEAT — Signature', ms:210, notes:('C5 E5 G5 A5 G5 E5 D5 C5 D5 E5 G5 E5 D5 C5 A4 C5 E5 G5 A5 C6 A5 G5 E5 D5 E5 G5 A5 G5 E5 D5 C5 D5 G5 A5 C6 D6 C6 A5 G5 A5 G5 E5 D5 E5 G5 A5 G5 E5 D5 E5 G5 E5 D5 C5 A4 G4 A4 C5 D5 E5 D5 C5 A4 C5 C5 D5 E5 G5 A5 G5 E5 D5 C5').split(' ')},
     {name:'Tetris — Korobeiniki', ms:190, notes:('E5 B4 C5 D5 C5 B4 A4 A4 C5 E5 D5 C5 B4 C5 D5 E5 C5 A4 A4 D5 F5 A5 G5 F5 E5 C5 E5 D5 C5 B4 B4 C5 D5 E5 C5 A4 A4 E5 C5 D5 B4 C5 A4 A4 G#4 B4 E5 C5 D5 B4 C5 E5 A5 A5 G#5').split(' ')},
     {name:'Beethoven — Ode to Joy', ms:240, notes:('E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 E4 D4 D4 E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 D4 C4 C4 D4 D4 E4 C4 D4 E4 F4 E4 C4 D4 E4 F4 E4 D4 C4 D4 G3 E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 D4 C4 C4').split(' ')},
     {name:'Beethoven — Für Elise', ms:150, notes:('E5 D#5 E5 D#5 E5 B4 D5 C5 A4 C4 E4 A4 B4 E4 G#4 B4 C5 E4 E5 D#5 E5 D#5 E5 B4 D5 C5 A4 C4 E4 A4 B4 E4 C5 B4 A4').split(' ')},
@@ -124,7 +129,7 @@
     {name:'Scarborough Fair', ms:240, notes:('A4 A4 E5 E5 E5 D5 C5 B4 A4 A4 B4 C5 A4 B4 A4 G4 E4 A4 A4 E5 E5 E5 D5 C5 B4 A4 A4 B4 C5 A4 B4 G4 F#4 E4').split(' ')},
     {name:'Danny Boy (Londonderry Air)', ms:260, notes:('G4 C5 E5 G5 F5 E5 D5 C5 A4 C5 D5 E5 D5 C5 G4 C5 E5 G5 F5 E5 D5 C5 D5 E5 A4 G4 E4 G4 C5 E5 G5 A5 G5 F5 E5 D5 C5 A4 C5 G4 C5 E5 D5 C5 D5 E5 C5 E5 F5 A5 A5 G5 F5 E5 F5 G5 E5 C5 G4 C5 E5 G5 F5 E5 D5 C5 D5 E5 A4 G4').split(' ')}
   ];
-  var N=5, ti=0, idx=0, locked=false, actx=null, order=[], mode='grid', motionOn=false, lastShake=0;
+  var N=5, ti=0, idx=0, locked=false, actx=null, order=[], mode='grid', motionOn=false, lastShake=0, noiseBuf=null;
   var GRID_ICON='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>';
   var ZAP_ICON='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>';
   var board=document.getElementById('board');
@@ -148,7 +153,7 @@
   var ddTune=makeDropdown(document.getElementById('ddTune'), tunes.map(function(t){return t.name;}), 0, function(i){ti=i;idx=0;try{localStorage.setItem('popit-tune',ti);}catch(e){}if(mode==='grid')refillAll();else applyModeState();});
   function applyTheme(i,repaint){var t=themes[i];if(!t)return;col=t;if(t.v)document.body.setAttribute('data-theme',t.v);else document.body.removeAttribute('data-theme');if(repaint)[].forEach.call(board.children,function(el){paint(el,el.dataset.down==='1');});}
   var ddTheme=makeDropdown(document.getElementById('ddTheme'), themes.map(function(t){return t.n;}), 0, function(i){applyTheme(i,true);try{localStorage.setItem('popit-theme',i);}catch(e){}});
-  try{var savedT=localStorage.getItem('popit-theme');if(savedT!==null&&themes[+savedT]){ddTheme.setCur(+savedT);applyTheme(+savedT,false);}}catch(e){}
+  try{var savedT=localStorage.getItem('popit-theme');var ti0=(savedT!==null&&themes[+savedT])?+savedT:2;ddTheme.setCur(ti0);applyTheme(ti0,false);}catch(e){ddTheme.setCur(2);applyTheme(2,false);}
   var ddFx=makeDropdown(document.getElementById('ddFx'), fx.map(function(e){return e.n;}), 0, function(i){fi=i;try{localStorage.setItem('popit-fx',i);}catch(e){}});
   try{var savedF=localStorage.getItem('popit-fx');if(savedF!==null&&fx[+savedF]){fi=+savedF;ddFx.setCur(+savedF);}}catch(e){}
 
@@ -156,7 +161,51 @@
   function play(f){if(!f)return;try{
     actx=actx||new (window.AudioContext||window.webkitAudioContext)();
     var e=fx[fi], t=actx.currentTime, dest=actx.destination;
-    if(e.kind==='electro'){
+    if(e.kind==='pop'){
+      var po=actx.createOscillator(); po.type='sine'; po.frequency.setValueAtTime(f*3,t); po.frequency.exponentialRampToValueAtTime(f,t+0.05);
+      var pog=actx.createGain(); pog.gain.setValueAtTime(0.0001,t); pog.gain.exponentialRampToValueAtTime(0.30,t+0.004); pog.gain.exponentialRampToValueAtTime(0.0001,t+0.12);
+      po.connect(pog); pog.connect(dest); po.start(t); po.stop(t+0.14);
+      var pb=actx.createOscillator(); pb.type='sine'; pb.frequency.value=f;
+      var pbg=actx.createGain(); pbg.gain.setValueAtTime(0.0001,t); pbg.gain.exponentialRampToValueAtTime(0.18,t+0.01); pbg.gain.exponentialRampToValueAtTime(0.0001,t+0.18);
+      pb.connect(pbg); pbg.connect(dest); pb.start(t); pb.stop(t+0.2);
+      if(!noiseBuf){noiseBuf=actx.createBuffer(1,Math.floor(actx.sampleRate*0.1),actx.sampleRate);var ch=noiseBuf.getChannelData(0);for(var ni=0;ni<ch.length;ni++)ch[ni]=Math.random()*2-1;}
+      var ns=actx.createBufferSource(); ns.buffer=noiseBuf;
+      var nf=actx.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=1800; nf.Q.value=0.8;
+      var ng=actx.createGain(); ng.gain.setValueAtTime(0.0001,t); ng.gain.exponentialRampToValueAtTime(0.14,t+0.003); ng.gain.exponentialRampToValueAtTime(0.0001,t+0.05);
+      ns.connect(nf); nf.connect(ng); ng.connect(dest); ns.start(t); ns.stop(t+0.06);
+    } else if(e.kind==='bubblesub'){
+      var fs=f*0.25, fm=f*0.5;
+      var sf=actx.createBiquadFilter(); sf.type='lowpass'; sf.Q.value=1;
+      sf.frequency.setValueAtTime(320,t); sf.frequency.linearRampToValueAtTime(850,t+0.1); sf.frequency.exponentialRampToValueAtTime(380,t+0.6);
+      var sg=actx.createGain(); sg.gain.setValueAtTime(0.0001,t); sg.gain.exponentialRampToValueAtTime(0.30,t+0.045); sg.gain.exponentialRampToValueAtTime(0.0001,t+0.75);
+      sf.connect(sg); sg.connect(dest);
+      var s1=actx.createOscillator(); s1.type='sine'; s1.frequency.setValueAtTime(fs*0.9,t); s1.frequency.exponentialRampToValueAtTime(fs,t+0.12); s1.connect(sf); s1.start(t); s1.stop(t+0.78);
+      var s2=actx.createOscillator(); s2.type='sine'; s2.frequency.value=fs; s2.detune.value=6;
+      var sg2=actx.createGain(); sg2.gain.setValueAtTime(0.0001,t); sg2.gain.exponentialRampToValueAtTime(0.14,t+0.05); sg2.gain.exponentialRampToValueAtTime(0.0001,t+0.7); s2.connect(sg2); sg2.connect(sf); s2.start(t); s2.stop(t+0.72);
+      var s3=actx.createOscillator(); s3.type='sine'; s3.frequency.value=fm;
+      var sg3=actx.createGain(); sg3.gain.setValueAtTime(0.0001,t); sg3.gain.exponentialRampToValueAtTime(0.09,t+0.05); sg3.gain.exponentialRampToValueAtTime(0.0001,t+0.55); s3.connect(sg3); sg3.connect(sf); s3.start(t); s3.stop(t+0.58);
+    } else if(e.kind==='bubbledeep'){
+      var f2=f*0.5;
+      var df=actx.createBiquadFilter(); df.type='lowpass'; df.Q.value=1;
+      df.frequency.setValueAtTime(500,t); df.frequency.linearRampToValueAtTime(1300,t+0.09); df.frequency.exponentialRampToValueAtTime(600,t+0.5);
+      var dg=actx.createGain(); dg.gain.setValueAtTime(0.0001,t); dg.gain.exponentialRampToValueAtTime(0.28,t+0.03); dg.gain.exponentialRampToValueAtTime(0.0001,t+0.55);
+      df.connect(dg); dg.connect(dest);
+      var d1=actx.createOscillator(); d1.type='sine'; d1.frequency.setValueAtTime(f2*0.9,t); d1.frequency.exponentialRampToValueAtTime(f2,t+0.1); d1.connect(df); d1.start(t); d1.stop(t+0.58);
+      var d2=actx.createOscillator(); d2.type='sine'; d2.frequency.value=f2; d2.detune.value=7;
+      var dg2=actx.createGain(); dg2.gain.setValueAtTime(0.0001,t); dg2.gain.exponentialRampToValueAtTime(0.10,t+0.04); dg2.gain.exponentialRampToValueAtTime(0.0001,t+0.5); d2.connect(dg2); dg2.connect(df); d2.start(t); d2.stop(t+0.52);
+      var da=actx.createOscillator(); da.type='sine'; da.frequency.value=f;
+      var dga=actx.createGain(); dga.gain.setValueAtTime(0.0001,t); dga.gain.exponentialRampToValueAtTime(0.03,t+0.02); dga.gain.exponentialRampToValueAtTime(0.0001,t+0.28); da.connect(dga); dga.connect(df); da.start(t); da.stop(t+0.3);
+    } else if(e.kind==='bubble'){
+      var bf=actx.createBiquadFilter(); bf.type='lowpass'; bf.Q.value=3;
+      bf.frequency.setValueAtTime(900,t); bf.frequency.exponentialRampToValueAtTime(2600,t+0.05); bf.frequency.exponentialRampToValueAtTime(1300,t+0.3);
+      var bg=actx.createGain(); bg.gain.setValueAtTime(0.0001,t); bg.gain.exponentialRampToValueAtTime(0.24,t+0.012); bg.gain.exponentialRampToValueAtTime(0.0001,t+0.32);
+      bf.connect(bg); bg.connect(dest);
+      var bo=actx.createOscillator(); bo.type='sine'; bo.frequency.setValueAtTime(f*0.8,t); bo.frequency.exponentialRampToValueAtTime(f,t+0.04); bo.connect(bf); bo.start(t); bo.stop(t+0.34);
+      var sh=actx.createOscillator(); sh.type='sine'; sh.frequency.value=f*2;
+      var sg=actx.createGain(); sg.gain.setValueAtTime(0.0001,t); sg.gain.exponentialRampToValueAtTime(0.06,t+0.008); sg.gain.exponentialRampToValueAtTime(0.0001,t+0.14); sh.connect(sg); sg.connect(bf); sh.start(t); sh.stop(t+0.16);
+      var pl=actx.createOscillator(); pl.type='sine'; pl.frequency.setValueAtTime(f*3,t); pl.frequency.exponentialRampToValueAtTime(f*1.4,t+0.06);
+      var pg2=actx.createGain(); pg2.gain.setValueAtTime(0.0001,t); pg2.gain.exponentialRampToValueAtTime(0.10,t+0.006); pg2.gain.exponentialRampToValueAtTime(0.0001,t+0.09); pl.connect(pg2); pg2.connect(dest); pl.start(t); pl.stop(t+0.1);
+    } else if(e.kind==='electro'){
       var flt=actx.createBiquadFilter(); flt.type='lowpass'; flt.Q.value=7;
       flt.frequency.setValueAtTime(4200,t); flt.frequency.exponentialRampToValueAtTime(700,t+0.28);
       var eg=actx.createGain(); eg.gain.setValueAtTime(0.0001,t); eg.gain.exponentialRampToValueAtTime(0.15,t+0.012); eg.gain.exponentialRampToValueAtTime(0.0001,t+0.42);

@@ -1,6 +1,6 @@
 # POP-BEAT
 
-Un pop-it musical à jouer dans le navigateur (mobile ou desktop). Grille de bulles à éclater ; chaque bulle joue la note suivante d'une mélodie 8-bit.
+Un pop-it musical à jouer dans le navigateur (mobile ou desktop). Éclate les bulles : chaque pop joue la note suivante de la mélodie choisie, avec des sons synthétisés au style « liquid glass ».
 
 ## Lancer
 
@@ -42,8 +42,14 @@ Sur le même Wi-Fi : depuis le dossier, lance `python -m http.server 8000`, puis
 
 ## Fonctionnalités
 
-- Grille 5×5 responsive, refill automatique (toujours au moins 10 bulles gonflées, tirage aléatoire, la bulle qu'on vient d'éclater est exclue).
-- Son 8-bit ; chaque pop avance la mélodie choisie.
-- 3 thèmes complets (Lavande, Sombre, Bleu) — fond + couleur des bulles.
-- 10 mélodies du domaine public (Beethoven, Mozart, Grieg, Rossini, Joplin, Greensleeves, Korobeïniki…).
-- Le thème et la dernière musique choisie sont mémorisés par le navigateur (localStorage).
+- Deux modes de jeu : **grille** 5×5 (toujours au moins 10 bulles gonflées, refill aléatoire) et **rapide** (5 bulles à la fois qui réapparaissent aussitôt éclatées).
+- Plusieurs sons synthétisés au choix : **Bulle** (signature), Bulle douce, Bulle profonde, **Éclat** (percussif), 8-bit, Électro, Piano.
+- 3 thèmes « liquid glass » — **Bleu** (par défaut), Lavande, Sombre — chacun définissant le fond et la couleur des bulles.
+- Une vingtaine de mélodies : une **signature originale** plus des airs du domaine public (classiques, folk, gospel).
+- Retour haptique à chaque pop ; **secouer** le téléphone regonfle toutes les bulles et remet la mélodie à zéro.
+- Interface responsive, grille placée en bas pour le confort à une main.
+- Le thème, la dernière musique et l'effet sonore choisis sont mémorisés par le navigateur (localStorage).
+
+## Format des notes
+
+Les mélodies sont des suites de noms de notes anglais : `C`=do, `D`=ré, `E`=mi, `F`=fa, `G`=sol, `A`=la, `B`=si. `#` pour un dièse, le chiffre = octave (4 = médium). Exemple : `C5 E5 G5 A5`.
